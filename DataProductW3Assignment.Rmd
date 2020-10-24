@@ -1,0 +1,58 @@
+---
+title: "W3Assignment"
+author: "Zixin"
+date: "24/10/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    warning = FALSE,
+    message = FALSE)
+```
+
+## Introduction
+
+This presentation include a short analysis of dataset *iris*, a 3D surface plot. And the result is presented by **Plotly** Package.
+```{r echo = F}
+library(plotly)
+```
+
+## Generating plot of **iris** data
+```{r echo = TRUE}
+# data iris 
+data(iris)
+fig <- iris %>% 
+    plot_ly() %>%
+    add_trace(x = ~Sepal.Length, y = ~Sepal.Width, type = 'scatter',
+              color = ~ Species) %>%
+    layout(title = "sepal width and length of different species",
+           xaxis = list(title = 'Sepal Length'),
+           yaxis = list(title = 'Sepal Width'))
+```
+
+## Figure of Iris data
+```{r iris}
+fig
+```
+
+## Generating a 3D surface
+```{r echo = TRUE}
+# 3D surface 
+x <- seq(-10,10,0.1)
+y <- seq(-10,10,0.1)
+X <- replicate(length(y), x)
+Y <- t(replicate(length(x), y))
+coef <- dnorm(sqrt(X^2 + Y^2), mean = 0, sd = 5)
+
+Z <- sin((X^2+Y^2)/10)*coef
+surf <- plot_ly(x = X, y = Y, z = Z, type = 'surface') %>%
+    layout(title = "A 3D surface")
+```
+
+## Figure of 3D surface
+```{r 3d surface}
+surf
+```
+
